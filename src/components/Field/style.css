@@ -1,0 +1,6 @@
+.field{
+    grid-template-columns: 1fr;
+    grid-template-rows: 15% 85%;
+    grid-template-areas: 'iF fB';
+    grid-area: f;
+  }

@@ -1,0 +1,10 @@
+.buttonsField{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  grid-area: fB;
+  border-right-style: ridge;
+}

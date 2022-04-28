@@ -1,0 +1,8 @@
+.history{
+    grid-area: h;
+}
+
+.historyValue{
+    overflow: auto;
+    height: 500px;
+}

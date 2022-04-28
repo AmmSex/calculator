@@ -1,0 +1,25 @@
+.header{
+    display: flex;
+    flex-direction: row;
+    padding: 0px 20px;
+    justify-content:space-between;
+    background-color:#282c34;
+    color: white;
+  }
+  
+  .menu{
+    display: flex;
+    align-items:center;
+    justify-content: space-around;
+    width: 150px;
+  }
+
+  a{
+      color:white;
+      text-decoration: none;
+  }
+
+  a.active{
+      color:aliceblue;
+      text-decoration: overline;
+  }
