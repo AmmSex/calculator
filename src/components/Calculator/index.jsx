@@ -9,7 +9,7 @@ const Calculator = () => {
     const {theme, setTheme, setLightTheme, setDarkTheme} = useContext(Context)
 
     const [calc, setCalc] = useState({
-        num: 0,
+        num: '',
         sign: '',
         res : '',
         history: ''

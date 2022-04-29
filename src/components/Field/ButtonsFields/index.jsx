@@ -64,6 +64,23 @@ const ButtonFields = ({setCalc, calc}) => {
 
     const equalsClickHandler = (event) => {
         let el = event.target.innerHTML[0];
+        if(calc.res && calc.num){
+            let math = (a, b, sign) => 
+                sign === '+' ? a+b :
+                sign === '-' ? a-b :
+                sign === '*' ? a*b : a/b;
+
+
+            setCalc({
+                ...calc,
+                res:  
+                    (calc.num === '0' && calc.sign === '/') ? '' : math(Number(calc.res), Number(calc.num), calc.sign),
+                sign: '',
+                num: ''
+            })
+        
+            
+        }
         console.log('=')
         
     }
@@ -79,10 +96,10 @@ const ButtonFields = ({setCalc, calc}) => {
 
     const buttonsF = buttons.map(el => <Button key={el.id} style={button} type='button' value={el.value} variant="outlined"
                                                 onClick={
-                                                    (el === 'C') ? resetClickHandle : 
-                                                    (el === '+' || el === '-' || el === '/' || el === '*') ? signClickHandler :
-                                                    el === '.' ? commaClickHandler :
-                                                    el === '=' ? equalsClickHandler :
+                                                    (el.value === 'C') ? resetClickHandle : 
+                                                    (el.value === '+' || el.value === '-' || el.value === '/' || el.value === '*') ? signClickHandler :
+                                                    el.value === '.' ? commaClickHandler :
+                                                    el.value === '=' ? equalsClickHandler :
                                                     buttonClickHandle
                                                 }
                                             >{el.value}</Button>);
