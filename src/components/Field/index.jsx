@@ -4,7 +4,6 @@ import './style.css'
 import InputField from './Input';
 
 const Field = ({calc, setCalc}) => {
-  console.log('field', calc)
     return(
         <div className='field'>
           <InputField calc={calc} setCalc={setCalc}/>

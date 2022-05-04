@@ -2,13 +2,15 @@ import React from 'react'
 import Button from '@mui/material/Button';
 import './style.css'
 
-const button = {
-    width: 90,
-    height: 90,
-    fontSize: '30px',
-    margin: '15px'
-}
+
 const ButtonFields = ({setCalc, calc}) => {
+    const button = {
+        width: 90,
+        height: 90,
+        fontSize: '30px',
+        margin: '15px'
+    }
+
     const buttons = [
         {id: 1, value: '0'},
         {id: 2, value: '1'},
@@ -32,8 +34,6 @@ const ButtonFields = ({setCalc, calc}) => {
         {id: 20, value: ')'},
     ]
 
-   
-
     const resetClickHandle = () => {
         setCalc({
             ...calc, 
@@ -43,84 +43,85 @@ const ButtonFields = ({setCalc, calc}) => {
         })
     }
 
-    const signClickHandler = (event) => {
-        let el = event.target.innerHTML[0];
-
+    const signClickHandler = (el) => {
         setCalc({
             ...calc, 
             sign: el,
             res: !calc.res &&calc.num ? calc.num : calc.res,
             num: ''
         })
-        
-        console.log('sign')
     }
 
-    const commaClickHandler = (event) => {
-        let el = event.target.innerHTML[0];
-        console.log(',')
-    
+    const commaClickHandler = (el) => {
+        setCalc({
+            ...calc,
+            num: !calc.num.toString().includes('.') && calc.num === '' ? 0 + el : !calc.num.toString().includes('.') ? calc.num + el : calc.num
+        })
     }
 
-    const equalsClickHandler = (event) => {
-        let el = event.target.innerHTML[0];
+    const equalsClickHandler = () => {
         if(calc.res && calc.num){
             let math = (a, b, sign) => 
                 sign === '+' ? a+b :
                 sign === '-' ? a-b :
                 sign === '*' ? a*b : a/b;
 
-
             setCalc({
                 ...calc,
-                res:  
-                    (calc.num === '0' && calc.sign === '/') ? '' : math(Number(calc.res), Number(calc.num), calc.sign),
+                res: (calc.num === '0' && calc.sign === '/') ? 'Can\'t divide with 0' : math(Number(calc.res), Number(calc.num), calc.sign),
                 sign: '',
-                num: ''
-            })
-        
-            
+                num: ''  
+            })  
         }
-        console.log('=')
-        
     }
 
-    const buttonClickHandle = (event) => {
-        let el = event.target.innerHTML[0];
+    const buttonClickHandle = (el) => {
         setCalc({
             ...calc,
-            num: el
+            num: calc.num + el,
         })
-        console.log('button')
     }
 
-    const buttonsF = buttons.map(el => <Button key={el.id} style={button} type='button' value={el.value} variant="outlined"
-                                                onClick={
-                                                    (el.value === 'C') ? resetClickHandle : 
-                                                    (el.value === '+' || el.value === '-' || el.value === '/' || el.value === '*') ? signClickHandler :
-                                                    el.value === '.' ? commaClickHandler :
-                                                    el.value === '=' ? equalsClickHandler :
-                                                    buttonClickHandle
-                                                }
-                                            >{el.value}</Button>);
+    const sendHistory = () => {
+        setCalc({
+            ...calc,
+            history: calc.history.push({expression: (calc.res+calc.sign+calc.num)})
+        })
+    }
 
-    // const handleClickField = (event) => {
-    //     let el = event.target.innerHTML[0];
-    //     // setCalc({
-    //     //     ...calc,
-    //     //     num: el
-    //     // });
+    const handleClick = (value)  => {
+        switch (value){
+            case "C":
+                resetClickHandle(value);
+                break;
+            case '+':
+            case '-':
+            case '/':
+            case '*':
+                signClickHandler(value);
+                break;
+            case '.':
+                commaClickHandler(value);
+                break;
+            case '=':
+                sendHistory();
+                equalsClickHandler(value);
+                //resetClickHandle();
+                break;
+            default:
+                buttonClickHandle(value);
+        }
+    }
 
-    //     (el === 'C') ? resetClickHandle() : 
-    //         (el === '+' || el === '-' || el === '/' || el === '*') ? signClickHandler() :
-    //         el === '.' ? commaClickHandler() :
-    //         el === '=' ? equalsClickHandler():
-    //         buttonClickHandle();
-
-
-
-    //     //console.log(element)
-    // }
+    const buttonsF = buttons.map(el => <Button 
+                                            key={el.id} 
+                                            style={button} 
+                                            type='button' 
+                                            value={el.value} 
+                                            variant="outlined" 
+                                            onClick={() => handleClick(el.value)}>
+                                                {el.value}
+                                        </Button>);
 
     return(
         <div className='buttonsField' >

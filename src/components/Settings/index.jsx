@@ -9,12 +9,13 @@ import Button from '@mui/material/Button';
 import Context from '../context'
 import './style.css'
 
-const Settings = () => {
-    const {theme, setTheme, setLightTheme, setDarkTheme} = useContext(Context)
-    
-    const P = styled.p`
+const P = styled.p`
         font-size: 26px;
     `
+
+const Settings = ({calc, setCalc}) => {
+    const {theme, setTheme, setLightTheme, setDarkTheme} = useContext(Context)
+
     const names = [
         'light',
         'dark' 
@@ -37,6 +38,13 @@ const Settings = () => {
         setTheme(themeValue)
     }
 
+    const clearHistory = () => {
+        setCalc({
+            ...calc,
+            history: []
+        })
+    }
+
     return(
         // <Context.Consumer>
         //     { 
@@ -45,26 +53,19 @@ const Settings = () => {
                         <P>Settings</P>
                         <FormControl sx={{ m: 1, width: 250}}>
                             <InputLabel id="demo-multiple-name-label">Theme</InputLabel>
-                            <Select
-                                labelId="demo-multiple-name-label"
-                                id="demo-multiple-name"
-                                
+                            <Select labelId="demo-multiple-name-label" id="demo-multiple-name"
                                 value={theme}
                                 onChange={handleChange}
                                 input={<OutlinedInput label="Theme" />}
-                                MenuProps={MenuProps}
-                            >
+                                MenuProps={MenuProps}>
                                 {names.map((name) => (
-                                    <MenuItem
-                                        key={name}
-                                        value={name}
-                                    >
+                                    <MenuItem key={name}value={name}>
                                         {name}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
-                        <Button variant="outlined" size="large" style={{width: '250px'}}>
+                        <Button variant="outlined" size="large" onClick={clearHistory} style={{width: '250px'}}>
                             All clear history
                         </Button>
                     </div>

@@ -4,21 +4,15 @@ import History from '../History'
 import Context from '../context'
 import './style.css'
 
-const Calculator = () => {
+const Calculator = ({calc, setCalc}) => {
 
-    const {theme, setTheme, setLightTheme, setDarkTheme} = useContext(Context)
+    const {theme} = useContext(Context)
 
-    const [calc, setCalc] = useState({
-        num: '',
-        sign: '',
-        res : '',
-        history: ''
-    })
 
     return(
         <div className={`calculator ${theme}-background`}>
             <Field calc={calc} setCalc={setCalc}/>
-            <History/>   
+            <History calc={calc}/>   
         </div>
     )
 }
